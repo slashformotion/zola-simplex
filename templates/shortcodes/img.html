@@ -1,0 +1,20 @@
+{% if path %}
+{% set mdata = get_image_metadata(path=path) %}
+{% set image = resize_image(path=path, width=(mdata.width * 0.5)|int, op="fit_width", format="webp") %}
+{% set image300 = resize_image(path=path, width=600, op="fit_width", format="webp") %}
+{% set image600 = resize_image(path=path, width=1200, op="fit_width", format="webp") %}
+{% set image900 = resize_image(path=path, width=1800, op="fit_width", format="webp") %}
+{% set image1200 = resize_image(path=path, width=3200, op="fit_width", format="webp") %}
+
+
+<picture>
+    <img 
+     sizes="60vw"
+    srcset="{{image300.url}} 300w,
+            {{image600.url}} 600w,
+            {{image900.url}} 900w,
+            {{image1200.url}} 1200w"  
+    src="{{ path }}" 
+    {% if alt %}alt="{{ alt }}" {% endif %} width="{{ mdata.width }}"  />
+</picture>
+{% endif %}
